@@ -35,3 +35,7 @@ H2 데이터베이스를 사용할 경우에는 Spring Boot가 직접 생성해�
     - 예를 들어, 특정 날짜를 Job Parameter로 넘기게되면 해당 날짜 데이터로 조회/가공/입력, 등의 작업 가능
     - Job Parameter에 따라 생성되기 때문에 같은 Job 이라도 Job Parameter가 같다면 기록되지 않는다.
 - BATCH_JOB_EXECUTION
+    - BATCH_JOB_EXECUTION, BATCH_JOB_INSTANCE 는 부모-자식 관계이다.
+    - 성공, 실패 내역을 가지고 있다.
+- BATCH_JOB_EXECUTION_PARAMS
+    - BATCH_JOB_EXECUTION 이 생성될 때 입력 받은 Job Parameter를 가지고 있다.
