@@ -39,3 +39,14 @@ H2 데이터베이스를 사용할 경우에는 Spring Boot가 직접 생성해�
     - 성공, 실패 내역을 가지고 있다.
 - BATCH_JOB_EXECUTION_PARAMS
     - BATCH_JOB_EXECUTION 이 생성될 때 입력 받은 Job Parameter를 가지고 있다.
+
+**지정한 Batch Job만 실행하기**
+```java
+// yml
+spring.batch.job.names: ${job.name:NONE}
+
+// Job Parameter 부분
+ --job.name=stepNextJob
+// 실제 운영 환경
+java -jar spring_batch.jar --job.name=simpleJob
+```
