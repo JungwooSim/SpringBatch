@@ -53,7 +53,7 @@ java -jar spring_batch.jar --job.name=simpleJob
 
 **Batch Job Flow**
 
-- Exit Status - **[(링크)](https://github.com/JungwooSim/SpringBatch/blob/master/src/main/java/me/batch/job/StepNextConditionalJobConfiguration.java)**
+- Exit Status - [(링크)](https://github.com/JungwooSim/SpringBatch/blob/master/src/main/java/me/batch/job/StepNextConditionalJobConfiguration.java)**
     - Next를 통해 Step의 순서를 제어할 수 있다. 하지만 앞의 Step에서 오류가 발생하면 나머지 뒤에 있는 Step 들은 실행되지 못한다. 하지만 이를 대비해서 Spring Batch Job에서는 조건별로 Step를 사용할 수 있게 되어 있다.
     - Exit Status의 상태를 정하고, on() 메서드가 참조하여 Flow를 정할 수 있다.
 - Decide - [(링크)](https://github.com/JungwooSim/SpringBatch/blob/master/src/main/java/me/batch/job/DeciderJobConfiguration.java)
@@ -64,3 +64,19 @@ java -jar spring_batch.jar --job.name=simpleJob
 
 - Batch Status 는 Job 또는 Step의 실행 결과를 Spring에서 기록할 때 사용하는 Enum 이다.
 - Exit Status 는 Step의 실행 후 상태를 얘기하고, Enum이 아니다.
+
+**Job Parameter, Scope**
+
+- Spring Batch는 외부 혹은 내부에서 파라미터를 받아 여러 Batch 컴포넌트에서 사용할 수 있도록 지원해준다. 이 파라미터를 **Job Parameter** 이라 한다.
+- Job Parameter을 사용하기 위해서는 전용 Scope를 선언해야 하는데, **@StepScope** 와 **@JobScope** 2가지가 있다.
+- 사용법은 SpEL로 선언해서 사용하면 된다.
+
+```java
+@Value("#{jobParameters[파라미터명]}")
+```
+
+**Chunk - [(공식문서)](https://docs.spring.io/spring-batch/docs/4.0.x/reference/html/index-single.html#chunkOrientedProcessing)**
+
+- 데이터 덩어리로 작업할 때 각 커밋 사이에 처리되는 row 수를 얘기한다.
+- Chunk 지향 처리는 한 번에 하나씩 데이터를 읽어 Chunk라는 덩어리를 만든 뒤, Chunk 단위로 트랜잭션을 다루는 것을 의미한다.
+    - Chunk 단위로 트랜잭션을 수행하기 때문에 실패할 경우 해당 Chunk 만큼만 롤백이 된다.
