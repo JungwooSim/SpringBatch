@@ -50,3 +50,17 @@ spring.batch.job.names: ${job.name:NONE}
 // 실제 운영 환경
 java -jar spring_batch.jar --job.name=simpleJob
 ```
+
+**Batch Job Flow**
+
+- Exit Status - **[(링크)](https://github.com/JungwooSim/SpringBatch/blob/master/src/main/java/me/batch/job/StepNextConditionalJobConfiguration.java)**
+    - Next를 통해 Step의 순서를 제어할 수 있다. 하지만 앞의 Step에서 오류가 발생하면 나머지 뒤에 있는 Step 들은 실행되지 못한다. 하지만 이를 대비해서 Spring Batch Job에서는 조건별로 Step를 사용할 수 있게 되어 있다.
+    - Exit Status의 상태를 정하고, on() 메서드가 참조하여 Flow를 정할 수 있다.
+- Decide - [(링크)](https://github.com/JungwooSim/SpringBatch/blob/master/src/main/java/me/batch/job/DeciderJobConfiguration.java)
+    - FlowExecutionStatus 로 상태를 관리
+    - Exit Status 보다 명확하게 Step들 간의 Flow를 담당하면서 다양한 분기 처리 가능
+
+**Batch Status & Exit Status**
+
+- Batch Status 는 Job 또는 Step의 실행 결과를 Spring에서 기록할 때 사용하는 Enum 이다.
+- Exit Status 는 Step의 실행 후 상태를 얘기하고, Enum이 아니다.
