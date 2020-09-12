@@ -103,3 +103,31 @@ Step 은 StepExecution Class 의 object 로 표현된다.
 다음은 StepExecution 의 속성이다.
 
 Status, startTime, endTime, exitStatus, executionContext, readCount, writeCount, commitCount, rollbackCount, readSkipCount, processSkipCount, filterCount, writeSkipCount
+
+### ExecutionContext
+
+StepExecution, JobExecution 단위로 실행된 객체를 key 와 value 로 프레임워크에서 유지 및 영구 상태를 저장할 수 있도록 하는 역할을 담당한다. Quartz 의  JobDataMap 와 유사하다.
+
+예를 들어, 배치 작업이 진행되며 라인별로 값을 저장하고 치명적인 문제가 발생했을시 다시 해당 지점부터 실행할 수 있도록 해준다.
+
+### JobRepository
+
+JobRepository는 위에서 언급한 것들의 상태를 저장한다. 
+JobLauncher, Job, Step 구현을 위한 CRUD 작업 제공하며 Job 이 실행되면 JobExecution 을 획득하고, 실행 과정에서  StepExecution 및 JobExecution 구현을 저장소에 전달하여 지속한다.
+@EnableBatchProcessing 을 사용하여 자동으로 구성된 JobRepository 을 얻을 수 있다.
+
+### JobLauncher
+
+JobParameters 을 받아 Job 을 시작하기 위한 간단한 인터페이스를 나타낸다.
+
+### Item Reader
+
+ItemReader 이 제공 할 수 있는 항목이 소진된 경우 null 을 반환하여 이를 표시 한다.
+
+### Item Writer
+
+한 번에 하나의 Batch 또는 Step 의 출력을 나타낸다.
+
+### Item Processor
+
+비즈니스 로직을 표현하고 ItemWrite 가 무언가 작성하는 동안 ItemProcess 는 다른 비즈니스 처리를 변환하거나 적용할 수 있는 access point 를 제공한다.
